@@ -1,0 +1,32 @@
+kind: Module
+type: container
+name: devops-tools
+dockerfile: Dockerfile
+include:
+  - src/**/*
+  - garden.yaml
+  - Dockerfile
+  - package.json
+  - package-lock.json
+  - nodemon.js.json
+  - nodemon.ts.json
+services:
+  - name: devops-tools
+    command: ["npm", "start:ts"]
+    ports:
+      - name: http
+        containerPort: 8080
+    devMode:
+      # Override the default container arguments when in dev mode.
+      # args:
+
+      # Override the default container command (i.e. entrypoint) when in dev mode.
+      command: ["npm", "run", "dev:ts"]
+
+      # Specify one or more source files or directories to automatically sync with the running container.
+      sync:
+        # - source: ./src
+        #   target: /app
+        #   mode: one-way
+        - target: /app
+          mode: two-way

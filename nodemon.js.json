@@ -1,0 +1,7 @@
+{
+  "watch": ["src/"],
+  "ignore": [".git", "node_modules"],
+  "delay": 0,
+  "exec": "npm start:js",
+  "ext": "js json yaml"
+}
