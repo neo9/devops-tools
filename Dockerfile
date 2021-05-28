@@ -32,7 +32,7 @@ RUN mv /root/.arkade/bin/kubectl /usr/local/bin/
 RUN curl -sSL https://sdk.cloud.google.com | bash
 ENV PATH $PATH:/root/google-cloud-sdk/bin
 
-RUN curl -sL https://get.garden.io/install.sh | bash
+RUN curl -sL https://get.garden.io/install.sh | bash -s 0.12.22
 RUN cp -r /root/.garden/bin/* /usr/local/bin
 
 
