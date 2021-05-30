@@ -10,6 +10,9 @@ RUN apk update && apk add --no-cache --update \
                     rsync
 
 
+RUN wget -O /usr/local/bin/yq "https://github.com/mikefarah/yq/releases/download/v4.9.3/yq_linux_amd64" && \
+    chmod a+x /usr/local/bin/yq
+
 ENV PYTHONUNBUFFERED=1
 
 RUN apk add --no-cache python3 && \
@@ -35,9 +38,9 @@ ENV PATH $PATH:/root/google-cloud-sdk/bin
 RUN curl -sL https://get.garden.io/install.sh | bash -s 0.12.22
 RUN cp -r /root/.garden/bin/* /usr/local/bin
 
-
 COPY package.json package-lock.json /app/
 RUN npm install
+RUN npm install -g yalc
 
 COPY . /app
 
