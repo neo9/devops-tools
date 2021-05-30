@@ -26,7 +26,11 @@ RUN wget -q https://github.com/devops-works/binenv/releases/latest/download/bine
 RUN chmod +x binenv && \
     mv binenv /usr/local/bin && \
     binenv update && \
-    binenv install binenv 0.10.0
+    binenv install binenv 0.11.0
+
+RUN binenv install trivy && \
+    mv /root/.binenv/binaries/trivy/0.18.3 /usr/local/bin && \
+    chmod a+x /usr/local/bin
 
 RUN curl -sLS https://dl.get-arkade.dev | sh
 RUN arkade get kubectl
