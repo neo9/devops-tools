@@ -6,6 +6,7 @@ RUN apk update && apk add --no-cache --update \
                     jq \
                     git \
                     openssh \
+                    openssl \
                     curl \
                     rsync
 
@@ -40,7 +41,7 @@ RUN binenv install trivy 0.18.3 && \
     mv /root/.binenv/binaries/trivy/0.18.3 /usr/local/bin/trivy && \
     chmod a+x /usr/local/bin/trivy
 
-RUN curl -sL https://get.garden.io/install.sh | bash -s 0.12.21
+RUN curl -sL https://get.garden.io/install.sh | bash -s 0.12.25
 RUN cp -r /root/.garden/bin/* /usr/local/bin
 
 COPY package.json package-lock.json /app/
