@@ -41,9 +41,55 @@ RUN binenv install trivy 0.18.3 && \
     mv /root/.binenv/binaries/trivy/0.18.3 /usr/local/bin/trivy && \
     chmod a+x /usr/local/bin/trivy
 
+# GitOps dependencies
+RUN apk add file
+
+RUN pip install PyYaml
+
+RUN binenv install helm 3.6.0 && \
+mv ~/.binenv/helm /usr/local/bin/
+
+RUN binenv install helmfile 0.139.7 && \
+mv ~/.binenv/helmfile /usr/local/bin/
+
+RUN binenv install kubeseal 0.16.0 && \
+mv ~/.binenv/kubeseal /usr/local/bin/
+
+RUN binenv install kustomize 4.4.0 && \
+mv ~/.binenv/kustomize /usr/local/bin/
+
+# Test dependencies
+RUN pip install yamllint
+
+RUN wget https://github.com/instrumenta/kubeval/releases/download/v0.16.1/kubeval-linux-amd64.tar.gz && \
+tar xf kubeval-linux-amd64.tar.gz && \
+mv kubeval /usr/local/bin
+
+RUN wget https://github.com/Shopify/kubeaudit/releases/download/v0.14.2/kubeaudit_0.14.2_linux_amd64.tar.gz && \
+tar xf kubeaudit_0.14.2_linux_amd64.tar.gz && \
+mv kubeaudit /usr/local/bin
+
+RUN wget https://github.com/zegl/kube-score/releases/download/v1.11.0/kube-score_1.11.0_linux_amd64.tar.gz && \
+tar xf kube-score_1.11.0_linux_amd64.tar.gz && \
+mv kube-score /usr/local/bin
+
+RUN wget https://github.com/open-policy-agent/conftest/releases/download/v0.25.0/conftest_0.25.0_Linux_x86_64.tar.gz && \
+tar xzf conftest_0.25.0_Linux_x86_64.tar.gz && \
+mv conftest /usr/local/bin
+
 RUN curl -sL https://get.garden.io/install.sh | bash -s 0.12.25
 RUN cp -r /root/.garden/bin/* /usr/local/bin
 
+# Other dependencies
+RUN npm install -g semver semver-compare-cli
+
+# Carvel
+RUN mkdir -p /app/scripts
+COPY ./scripts/install-carvel.sh /app/scripts
+RUN chmod +x /app/scripts/install-carvel.sh
+RUN /app/scripts/install-carvel.sh
+
+# devops-tools app
 COPY package.json package-lock.json /app/
 RUN npm install
 
